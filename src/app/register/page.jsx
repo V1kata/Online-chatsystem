@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from 'next/navigation';
-import { useActionState, useState } from 'react';
+import { useState } from 'react';
 
 export default function Page() {
     let [step, setStep] = useState(1);
@@ -13,7 +13,7 @@ export default function Page() {
         setStep(2);
     }
     
-    const [state, formAction] = useActionState(signIn, {});
+    // const [state, formAction] = useActionState(signIn, {});
     return (
         <div id="auth-container"
             className="relative w-[700px] h-[450px] overflow-hidden bg-white rounded-lg shadow-2xl flex">
@@ -24,7 +24,7 @@ export default function Page() {
                             backgroundImage: 'url(/registerImg.webp)',
                         }} />
                     <div className="w-1/2 flex flex-col justify-center items-center p-8">
-                        {step === 1 && (<form action={formAction}>
+                        {step === 1 && (<form action={signIn}>
                             <h2 className="text-2xl font-semibold mb-6">Register</h2>
                             <input type="text" placeholder="Name" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
                             <input type="email" placeholder="Email" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
