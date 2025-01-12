@@ -10,7 +10,7 @@ export default function LoginForm() {
           <input type="text" placeholder="Email" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
           <input type="password" placeholder="Password" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
           <button className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Login</button>
-          <p className="mt-4 text-sm">Don't have an account? <Link href="/register" className="text-blue-500 hover:underline">Register</Link></p>
+          <p className="mt-4 text-sm">Don&#39;t have an account? <Link href="/register" className="text-blue-500 hover:underline">Register</Link></p>
         </div>
       </div>
     </div>
