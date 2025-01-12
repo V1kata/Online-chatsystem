@@ -12,8 +12,6 @@ export default function Page() {
     function signIn() {
         setStep(2);
     }
-    
-    // const [state, formAction] = useActionState(signIn, {});
     return (
         <div id="auth-container"
             className="relative w-[700px] h-[450px] overflow-hidden bg-white rounded-lg shadow-2xl flex">
