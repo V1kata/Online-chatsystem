@@ -1,4 +1,5 @@
 "use client";
+import { registerUser } from '@/lib/data';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -9,8 +10,14 @@ export default function Page() {
         router.push('/login');
     }
     
-    function signIn() {
-        setStep(2);
+    async function signIn(formData) {
+        console.log(formData)
+        try {
+            // await registerUser();
+            setStep(2);
+        } catch (err) {
+            console.error(err);
+        }
     }
     return (
         <div id="auth-container"
@@ -24,7 +31,6 @@ export default function Page() {
                     <div className="w-1/2 flex flex-col justify-center items-center p-8">
                         {step === 1 && (<form action={signIn}>
                             <h2 className="text-2xl font-semibold mb-6">Register</h2>
-                            <input type="text" placeholder="Name" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
                             <input type="email" placeholder="Email" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
                             <input type="password" placeholder="Password" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
                             <button className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Register</button>
