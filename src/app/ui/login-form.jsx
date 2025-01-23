@@ -3,14 +3,14 @@ import { loginUser } from "@/lib/authentication";
 import { useUser } from "@/app/context/UserContext";
 import { useRouter } from 'next/navigation';
 
-export function LoginForm({ onSuccess }) {
+export function LoginForm() {
     const { setUserData } = useUser();
     const router = useRouter();
     async function login(formData) {
         try {
             const data = await loginUser(Object.fromEntries(formData));
             setUserData(data);
-            router.push('/allchats');
+            router.push('/chats/allchat');
         } catch (err) {
             console.error(err);
         }

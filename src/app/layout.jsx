@@ -1,6 +1,5 @@
-import '@/app/global.css'
-import { UserProvider } from './context/UserContext';
-import { User } from 'lucide-react';
+import '@/app/global.css';
+import { UserProvider } from '@/app/context/UserContext';
 export default function RootLayout({ children }) {
     return (
         <html lang="en">

@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { RegisterForm } from "@/app/ui/register-form"
-import { ProfileForm } from "@/app/ui/profile-form.jsx"
+import { ProfileForm } from "@/app/ui/profile-form"
 
 export default function Page() {
     const [step, setStep] = useState(1)
