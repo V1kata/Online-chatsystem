@@ -1,5 +1,6 @@
 import '@/app/global.css'
-
+import { UserProvider } from './context/UserContext';
+import { User } from 'lucide-react';
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
@@ -12,7 +13,9 @@ export default function RootLayout({ children }) {
                     class="absolute top-40 right-32 w-24 h-24 bg-green-400 opacity-40 rounded-lg animate-float animation-delay-200 z-[-1]">
                 </div>
                 <div class="absolute bottom-32 left-48 w-16 h-16 bg-yellow-300 opacity-20 rounded-full animate-float z-[-1]"></div>
-                {children}
+                <UserProvider>
+                    {children}
+                </UserProvider>
             </body>
         </html>
     )

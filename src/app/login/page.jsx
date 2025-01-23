@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from 'next/navigation';
+import { LoginForm } from '../ui/login-form';
 export default function Page() {
     const router = useRouter();
     const handleSwitch = (e) => {
@@ -12,10 +13,7 @@ export default function Page() {
             <div id="auth-slider" className="flex w-[1400px] transition-transform duration-700 ease-in-out">
                 <div class="w-[700px] flex">
                     <div className="w-1/2 flex flex-col justify-center items-center p-8">
-                        <h2 className="text-2xl font-semibold mb-6">Login</h2>
-                        <input type="text" placeholder="Email" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
-                        <input type="password" placeholder="Password" className="w-full mb-4 p-2 border rounded-md focus:outline-none" />
-                        <button className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Login</button>
+                        <LoginForm />
                         <p className="mt-4 text-sm">Don&#39;t have an account? <button onClick={handleSwitch} className="text-blue-500 hover:underline">Register</button></p>
                     </div>
                     <div className="w-1/2 bg-cover bg-center"
