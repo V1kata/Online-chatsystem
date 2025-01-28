@@ -32,7 +32,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/app/chats/friend-requests/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

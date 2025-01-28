@@ -8,13 +8,13 @@ export function ProfileForm() {
   const router = useRouter()
   async function handleUpdate(formData) {
     const { username, profileImageUrl } = Object.fromEntries(formData);
-    const userProfile = { username, profileImageUrl, 'user_id': userData.id };
+    const userProfile = { username, profileImageUrl, 'user_id': userData.id, email: userData.email };
 
     try {
       const data = await updateProfile(userProfile);
       setUserData(previousState => ({ ...previousState, ...data }));
 
-      router.push("/allchats");
+      router.push("/chats/allchats");
     } catch (err) {
       console.error(err);
     }

@@ -10,13 +10,17 @@ export async function registerUser({ email, password }) {
         if (error) {
             throw error;
         }
-        
+
         let returnData = {
             id: data.user.id,
+            accessToken: data.session.access_token,
+            refreshToken: data.session.refresh_token,
             email: data.user.email,
             createdAt: data.user['created_at'],
             updatedAt: data.user['updated_at'],
         }
+
+        await setSession(data.session.access_token, data.session.refresh_token);
         return returnData;
     } catch (err) {
         console.error('Unexpected error:', err);
@@ -42,22 +46,43 @@ export async function updateProfile(userProfile) {
 }
 
 export async function loginUser({ email, password }) {
-    try {    
+    try {
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
 
-        if (error) {
+        if (error != null) {
             throw error;
         }
 
         let userId = data.user.id;
         const res = await supabase.from('user_profiles').select('username, profileImageUrl').eq('user_id', userId);
-        
-        return res.data[0];
-    } catch (err) {   
+
+        let returnData = {
+            id: userId,
+            accessToken: data.session.access_token,
+            email: data.user.email,
+            username: res.data[0].username,
+            profileImageUrl: res.data[0].profileImageUrl,
+        }
+
+        await setSession(data.session.access_token, data.session.refresh_token);
+        return returnData;
+    } catch (err) {
         console.error('Unexpected error:', err);
         return { error: err };
-    }   
+    }
+}
+
+async function setSession(access_token, refresh_token) {
+    try {
+        const { data, error } = await supabase.auth.setSession({
+            access_token,
+            refresh_token
+        });
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        return { error: err };
+    }
 }

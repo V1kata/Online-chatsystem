@@ -9,6 +9,11 @@ export function LoginForm() {
     async function login(formData) {
         try {
             const data = await loginUser(Object.fromEntries(formData));
+
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
             setUserData(data);
             router.push('/chats/allchat');
         } catch (err) {
