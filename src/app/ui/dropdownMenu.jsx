@@ -32,7 +32,7 @@ export function DropdownMenu() {
     }, []);
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative z-10" ref={dropdownRef}>
             <button
                 aria-haspopup="true"
                 aria-expanded={isOpen}

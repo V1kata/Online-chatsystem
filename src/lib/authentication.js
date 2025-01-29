@@ -57,14 +57,16 @@ export async function loginUser({ email, password }) {
         }
 
         let userId = data.user.id;
-        const res = await supabase.from('user_profiles').select('username, profileImageUrl').eq('user_id', userId);
+        const res = await supabase.from('user_profiles').select('username, profileImageUrl, friends').eq('user_id', userId);
 
+        debugger
         let returnData = {
             id: userId,
             accessToken: data.session.access_token,
             email: data.user.email,
             username: res.data[0].username,
             profileImageUrl: res.data[0].profileImageUrl,
+            friends: res.data.friends,
         }
 
         await setSession(data.session.access_token, data.session.refresh_token);

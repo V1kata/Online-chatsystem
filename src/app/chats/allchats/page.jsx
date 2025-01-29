@@ -1,11 +1,4 @@
-"use client";
-
-import { useUser } from "@/app/context/UserContext";
-
 export default function Page() {
-    const { userData } = useUser();
-    console.log(userData)
-
     return (
         <>
             <article className="flex flex-col gap-12">

@@ -15,7 +15,7 @@ export function LoginForm() {
             }
             
             setUserData(data);
-            router.push('/chats/allchat');
+            router.push('/chats/allchats');
         } catch (err) {
             console.error(err);
         }
