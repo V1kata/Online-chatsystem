@@ -1,8 +1,8 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { RegisterForm } from "@/app/ui/register-form"
-import { ProfileForm } from "@/app/ui/profile-form"
+import { RegisterForm } from "@/app/ui/forms/register-form"
+import { ProfileForm } from "@/app/ui/forms/profile-form"
 
 export default function Page() {
     const [step, setStep] = useState(1)

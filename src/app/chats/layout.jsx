@@ -3,7 +3,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import { DropdownMenu } from "@/app/ui/dropdownMenu";
 import { PageTitle } from "@/app/ui/pageTitle";
-import { ProfileButton } from "@/app/ui/profileButton";
+import { ProfileButton } from "@/app/ui/buttons/profileButton";
 
 export default function Layout({ children }) {
     useAuth();

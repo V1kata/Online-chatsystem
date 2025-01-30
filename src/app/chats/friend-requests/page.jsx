@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { useUser } from "@/app/context/UserContext";
 import { viewFriendRequest } from "@/lib/dataHandlers";
-import { AddUserButton } from "@/app/ui/addUserButton";
-import { RejectUserButton } from "@/app/ui/rejectUserButton";
+import { AddUserButton } from "@/app/ui/buttons/addUserButton";
+import { RejectUserButton } from "@/app/ui/buttons/rejectUserButton";
 import Image from "next/image";
 import { timeAgo } from "@/utils/timeAgo";
 

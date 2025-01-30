@@ -4,7 +4,7 @@ import { useUser } from "@/app/context/UserContext";
 import { getAllUsers, searchForUser } from "@/lib/dataHandlers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { AddAFriendButton } from "@/app/ui/addAFriendButton";
+import { AddAFriendButton } from "@/app/ui/buttons/addAFriendButton";
 
 export default function Page() {
     const { userData } = useUser();

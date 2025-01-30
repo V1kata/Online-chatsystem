@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from 'next/navigation';
-import { LoginForm } from "@/app/ui/login-form";
+import { LoginForm } from "@/app/ui/forms/login-form";
 export default function Page() {
     const router = useRouter();
     const handleSwitch = (e) => {
