@@ -38,11 +38,11 @@ export async function updateProfile(userProfile) {
             throw error;
         }
 
-        return data ?? userProfile
+        return { ...data ?? userProfile, id: data.id}
     } catch (err) {
-        console.error("Error inserting user profile:", err.message);
-        throw err;
-    }
+    console.error("Error inserting user profile:", err.message);
+    throw err;
+}
 }
 
 export async function loginUser({ email, password }) {
@@ -57,16 +57,16 @@ export async function loginUser({ email, password }) {
         }
 
         let userId = data.user.id;
-        const res = await supabase.from('user_profiles').select('username, profileImageUrl, friends').eq('user_id', userId);
+        const res = await supabase.from('user_profiles').select('id, username, profileImageUrl, friends').eq('user_id', userId);
 
         debugger
         let returnData = {
-            id: userId,
+            id: res.data[0].id,
             accessToken: data.session.access_token,
             email: data.user.email,
             username: res.data[0].username,
             profileImageUrl: res.data[0].profileImageUrl,
-            friends: res.data.friends,
+            friends: res.data[0].friends,
         }
 
         await setSession(data.session.access_token, data.session.refresh_token);

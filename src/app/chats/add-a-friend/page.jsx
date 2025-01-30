@@ -4,23 +4,24 @@ import { useUser } from "@/app/context/UserContext";
 import { getAllUsers, searchForUser } from "@/lib/dataHandlers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { AddAFriendButton } from "@/app/ui/addAFriendButton";
 
 export default function Page() {
     const { userData } = useUser();
     const [users, setUsers] = useState([]);
-    let inputData = undefined;
+    const [inputData, setInputData] = useState(undefined);
 
     useEffect(() => {
         async function fetchUsers() {
-            const data = await getAllUsers(userData.email);
+            const data = await getAllUsers(userData?.email);
             setUsers(data);
         }
         fetchUsers();
     }, []);
 
-    async function handleSearch() {
+    const handleSearch = async () => {
         if (!inputData) {
-            let data = await getAllUsers(userData.email);
+            let data = await getAllUsers(userData?.email);
             setUsers(data);
             return;
         };
@@ -43,7 +44,7 @@ export default function Page() {
                     id="friend-search"
                     placeholder="Search for a friend by username or email"
                     value={inputData}
-                    onChange={(e) => inputData = e.target.value}
+                    onChange={(e) => setInputData(e.target.value)}
                     class="w-full max-w-[96%] p-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
                 />
                 <button className="absolute right-4 scale-95 hover:scale-105 cursor-pointer mr-3"
@@ -54,6 +55,7 @@ export default function Page() {
                         width={50}
                         height={50}
                         priority
+                        alt="Search Icon"
                     />
                 </button>
             </div>
@@ -71,10 +73,7 @@ export default function Page() {
                                     <p class="last-text text-gray-600">{user.email}</p>
                                 </div>
                             </div>
-                            <button
-                                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                                Add Friend
-                            </button>
+                            <AddAFriendButton receiverId={user.id} />
                         </li>
                     )) : (<p class="text-center text-2xl z-10 top-1/2 left-1/2 -translate-x-1/2 absolute">No users found</p>)}
                 </ul>
