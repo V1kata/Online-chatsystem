@@ -38,16 +38,16 @@ export default function Page() {
 
     return (
         <>
-            <div class="flex flex-col items-center space-y-2 relative">
+            <div className="flex flex-col items-center space-y-2 relative">
                 <input
                     type="text"
                     id="friend-search"
                     placeholder="Search for a friend by username or email"
                     value={inputData}
                     onChange={(e) => setInputData(e.target.value)}
-                    class="w-full max-w-[96%] p-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+                    className="w-full max-w-[96%] p-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
                 />
-                <button className="absolute right-4 scale-95 hover:scale-105 cursor-pointer mr-3"
+                <button classNameName="absolute right-4 scale-95 hover:scale-105 cursor-pointer mr-3"
                     style={{ "marginTop": "0" }}
                     onClick={handleSearch}>
                     <Image
@@ -60,22 +60,22 @@ export default function Page() {
                 </button>
             </div>
 
-            <div id="friends-list" class="mt-4 space-y-4">
-                <ul class="flex flex-col gap-4">
+            <div id="friends-list" className="mt-4 space-y-4">
+                <ul className="flex flex-col gap-4">
                     {users.length > 0 ? users.map((user) => (
                         <li key={user.id}
-                            class="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
-                            <div class="flex items-center gap-4">
+                            className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
+                            <div className="flex items-center gap-4">
                                 <Image src={user.profileImageUrl} alt="User Avatar" width={100} height={100}
-                                    className="profile-pic rounded-full w-30 h-30 bg-white p-2 object-cover" />
-                                <div class="flex flex-col gap-1 text-xl">
-                                    <p class="name font-bold text-gray-800">{user.username}</p>
-                                    <p class="last-text text-gray-600">{user.email}</p>
+                                    classNameName="profile-pic rounded-full w-30 h-30 bg-white p-2 object-cover" />
+                                <div className="flex flex-col gap-1 text-xl">
+                                    <p className="name font-bold text-gray-800">{user.username}</p>
+                                    <p className="last-text text-gray-600">{user.email}</p>
                                 </div>
                             </div>
                             <AddAFriendButton receiverId={user.id} />
                         </li>
-                    )) : (<p class="text-center text-2xl z-10 top-1/2 left-1/2 -translate-x-1/2 absolute">No users found</p>)}
+                    )) : (<p className="text-center text-2xl z-10 top-1/2 left-1/2 -translate-x-1/2 absolute">No users found</p>)}
                 </ul>
             </div>
         </>

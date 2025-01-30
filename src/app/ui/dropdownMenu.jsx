@@ -10,6 +10,7 @@ const links = [
     { title: "Add a friend", path: "/chats/add-a-friend" },
     { title: "Profile", path: "/profile" },
     { title: "Logout", path: "/logout" },
+    { title: "Login", path: "/login" },
 ]
 export function DropdownMenu() {
     const pathname = usePathname();

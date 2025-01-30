@@ -57,7 +57,7 @@ export default function Page() {
                             </button>
                         </div>
                     </div>
-                )) : <p class="text-center text-2xl z-10 top-1/2 left-1/2 -translate-x-1/2 absolute">No users found</p>}
+                )) : <p className="text-center text-2xl z-10 top-1/2 left-1/2 -translate-x-1/2 absolute">No users found</p>}
             </article>
         </>
     )
