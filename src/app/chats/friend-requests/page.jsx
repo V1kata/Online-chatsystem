@@ -12,7 +12,6 @@ export default function Page() {
     useEffect(() => {
         async function fetchUsers() {
             const data = await viewFriendRequest(userData.id);
-            debugger
             setPeople(data);
         }
         fetchUsers();

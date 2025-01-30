@@ -26,7 +26,7 @@ export default function Page() {
             return;
         };
 
-        let newUsers = await searchForUser(inputData);
+        let newUsers = await searchForUser(inputData, userData.id);
 
         if (!newUsers) {
             setUsers([]);
@@ -47,14 +47,13 @@ export default function Page() {
                     onChange={(e) => setInputData(e.target.value)}
                     className="w-full max-w-[96%] p-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
                 />
-                <button classNameName="absolute right-4 scale-95 hover:scale-105 cursor-pointer mr-3"
+                <button className="absolute right-4 scale-95 hover:scale-105 cursor-pointer mr-3"
                     style={{ "marginTop": "0" }}
                     onClick={handleSearch}>
                     <Image
                         src='/search-alt-1-svgrepo-com.svg'
                         width={50}
-                        height={50}
-                        priority
+                        height={50} 
                         alt="Search Icon"
                     />
                 </button>
@@ -67,7 +66,7 @@ export default function Page() {
                             className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
                             <div className="flex items-center gap-4">
                                 <Image src={user.profileImageUrl} alt="User Avatar" width={100} height={100}
-                                    classNameName="profile-pic rounded-full w-30 h-30 bg-white p-2 object-cover" />
+                                    className="profile-pic rounded-full w-30 h-30 p-2 object-cover" />
                                 <div className="flex flex-col gap-1 text-xl">
                                     <p className="name font-bold text-gray-800">{user.username}</p>
                                     <p className="last-text text-gray-600">{user.email}</p>

@@ -11,17 +11,8 @@ export async function registerUser({ email, password }) {
             throw error;
         }
 
-        let returnData = {
-            id: data.user.id,
-            accessToken: data.session.access_token,
-            refreshToken: data.session.refresh_token,
-            email: data.user.email,
-            createdAt: data.user['created_at'],
-            updatedAt: data.user['updated_at'],
-        }
-
         await setSession(data.session.access_token, data.session.refresh_token);
-        return returnData;
+        return data;
     } catch (err) {
         console.error('Unexpected error:', err);
         return { error: err };
@@ -32,17 +23,18 @@ export async function updateProfile(userProfile) {
     try {
         const { data, error } = await supabase
             .from("user_profiles")
-            .insert([userProfile]);
+            .insert([userProfile])
+            .select();
 
         if (error) {
             throw error;
         }
 
-        return { ...data ?? userProfile, id: data.id}
+        return data[0]
     } catch (err) {
-    console.error("Error inserting user profile:", err.message);
-    throw err;
-}
+        console.error("Error inserting user profile:", err.message);
+        throw err;
+    }
 }
 
 export async function loginUser({ email, password }) {
@@ -59,7 +51,6 @@ export async function loginUser({ email, password }) {
         let userId = data.user.id;
         const res = await supabase.from('user_profiles').select('id, username, profileImageUrl, friends').eq('user_id', userId);
 
-        debugger
         let returnData = {
             id: res.data[0].id,
             accessToken: data.session.access_token,

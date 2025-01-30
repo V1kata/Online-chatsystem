@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/setUp";
 
-export async function getAllUsers(email = 'viktor.burboran@gmail.com') {
+export async function getAllUsers(email = 'banana@gmail.com') {
     try {
         const { data, error } = await supabase
             .from('user_profiles')
@@ -23,12 +23,13 @@ export async function getAllUsers(email = 'viktor.burboran@gmail.com') {
     }
 }
 
-export async function searchForUser(input) {
+export async function searchForUser(input, id) {
     try {
         const { data, error } = await supabase
             .from("user_profiles")
             .select("*")
-            .or(`email.ilike.%${input}%,username.ilike.%${input}%`);
+            .or(`email.ilike.%${input}%,username.ilike.%${input}%`)
+            .neq("id", id);
 
         if (error) {
             console.error("Error searching for user:", error);

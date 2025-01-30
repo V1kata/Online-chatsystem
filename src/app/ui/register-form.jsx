@@ -7,6 +7,11 @@ export function RegisterForm({ onSuccess }) {
     async function signIn(formData) {
         try {
             const data = await registerUser(Object.fromEntries(formData));
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
             setUserData(data);
             onSuccess();
         } catch (err) {
