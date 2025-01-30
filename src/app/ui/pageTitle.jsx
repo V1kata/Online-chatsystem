@@ -1,4 +1,4 @@
-import { toTitleCase } from "@/lib/helper";
+import { toTitleCase } from "@/utils/helper";
 import { usePathname } from "next/navigation"
 
 export function PageTitle() {

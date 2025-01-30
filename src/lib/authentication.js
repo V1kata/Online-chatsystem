@@ -79,3 +79,46 @@ async function setSession(access_token, refresh_token) {
         return { error: err };
     }
 }
+
+export async function getSession(params) {
+    try {
+        const { data, error } = await supabase.auth.getSession();
+
+        const user = await getCurrentUser(data.session.user.id);
+
+        return user;
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        return { error: err };
+    }
+}
+
+async function getCurrentUser(user_id) {
+    try {
+        const { data, error } = await supabase
+            .from('user_profiles')
+            .select('id, username, email, profileImageUrl, friends')
+            .eq('user_id', user_id);
+
+        return data
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        return { error: err };
+    }
+}
+
+export async function logoutUser() {
+    try {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            throw error;
+        }
+
+        localStorage.removeItem('sb-mbzfehmethzunbrrpxls-auth-token');
+        sessionStorage.removeItem('sb-mbzfehmethzunbrrpxls-auth-token');
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        return { error: err };
+    }
+}
