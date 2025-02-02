@@ -8,7 +8,7 @@ export function ProfileForm() {
   const router = useRouter()
   async function handleUpdate(formData) {
     const { username, profileImageUrl } = Object.fromEntries(formData);
-    const userProfile = { username, profileImageUrl, user_id: userData.user.id, email: userData.user.email, friends: [] };
+    const userProfile = { username, profileImageUrl, user_id: userData.user.id, email: userData.user.email};
 
     try {
       const data = await updateProfile(userProfile);

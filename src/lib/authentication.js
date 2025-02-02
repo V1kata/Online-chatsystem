@@ -49,7 +49,7 @@ export async function loginUser({ email, password }) {
         }
 
         let userId = data.user.id;
-        const res = await supabase.from('user_profiles').select('id, username, profileImageUrl, friends').eq('user_id', userId);
+        const res = await supabase.from('user_profiles').select('*').eq('user_id', userId);
 
         let returnData = {
             id: res.data[0].id,
@@ -57,7 +57,8 @@ export async function loginUser({ email, password }) {
             email: data.user.email,
             username: res.data[0].username,
             profileImageUrl: res.data[0].profileImageUrl,
-            friends: res.data[0].friends,
+            acceptedFriends: res.data[0].acceptedFriends,
+            blockedFriends: res.data[0].blockedFriends
         }
 
         await setSession(data.session.access_token, data.session.refresh_token);
@@ -97,7 +98,7 @@ async function getCurrentUser(user_id) {
     try {
         const { data, error } = await supabase
             .from('user_profiles')
-            .select('id, username, email, profileImageUrl, friends')
+            .select('*')
             .eq('user_id', user_id);
 
         return data

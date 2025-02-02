@@ -52,7 +52,7 @@ export async function sendFriendRequest(senderId, receiverId) {
                     receiver_id: receiverId
                 }
             ]);
-            // need to put restriction so that one user cant send multiple requests to the same user
+        // need to put restriction so that one user cant send multiple requests to the same user
 
         if (error) {
             throw new Error(error.message);
@@ -71,17 +71,48 @@ export async function viewFriendRequest(senderId) {
             .select(`id,
                 created_at,
                 sender_id(
+                    id,
                     email,
                     username,
                     profileImageUrl
                 )`)
-            .eq("receiver_id", senderId) // fix this to be the receiver_id
+            .eq("receiver_id", senderId)
 
         if (error) {
-            throw new Error(error.message);
+            debugger
+            throw Error(error.message);
         }
 
         return data;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export async function acceptFriendRequest(updatedFriendsArray, sender_id, receiver_id) {
+    try {
+        const { data, error } = await supabase
+            .from("user_profiles")
+            .update({ acceptedFriends: updatedFriendsArray })
+            .eq("id", receiver_id)
+            .select();
+
+        const res = await supabase
+            .from("friend_requests")
+            .delete()
+            .eq("sender_id", sender_id)
+            .eq("receiver_id", receiver_id);
+
+        const res2 = await supabase
+            .from("user_profiles")
+            .update({ acceptedFriends: updatedFriendsArray })
+            .eq("id", sender_id);
+
+        if (error || res.error || res2.error) {
+            throw Error(error.message);
+        }
+
+        return data[0];
     } catch (err) {
         console.error(err);
     }

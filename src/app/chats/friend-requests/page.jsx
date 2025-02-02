@@ -9,12 +9,12 @@ import Image from "next/image";
 import { timeAgo } from "@/utils/timeAgo";
 
 export default function Page() {
-    const { userData } = useUser();
+    const { userData, setUserData } = useUser();
     const [people, setPeople] = useState([]);
 
     useEffect(() => {
         async function fetchUsers() {
-            const data = await viewFriendRequest(userData?.id);
+            const data = await viewFriendRequest(userData.id);
             setPeople(data);
         }
         fetchUsers();
@@ -27,7 +27,7 @@ export default function Page() {
                     <div key={person.id}
                         className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
                         <div className="flex items-center gap-4">
-                            <Image 
+                            <Image
                                 src={person['sender_id'].profileImageUrl}
                                 alt="User Avatar"
                                 width={100}
@@ -41,7 +41,12 @@ export default function Page() {
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <AddUserButton />
+                            <AddUserButton
+                                sender_id={person['sender_id'].id}
+                                userData={userData}
+                                setUserData={setUserData}
+                                setPeople={setPeople}
+                            />
                             <RejectUserButton />
                         </div>
                     </div>
