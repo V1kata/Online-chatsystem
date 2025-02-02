@@ -1,3 +1,5 @@
+"use client";
+
 import { usePathname } from "next/navigation";
 import { useRef, useEffect, useState } from "react";
 import clsx from "clsx";

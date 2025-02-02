@@ -29,7 +29,7 @@ export default function Page() {
                         <li key={user.id}
                             className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
                             <div className="flex items-center gap-4">
-                                <Image src={user.profileImageUrl} alt="User Avatar" width={100} height={100}
+                                <Image src={user.profileImageUrl} alt="User Avatar" width={100} height={100} priority
                                     className="profile-pic rounded-full w-30 h-30 p-2 object-cover" />
                                 <div className="flex flex-col gap-1 text-xl">
                                     <p className="name font-bold text-gray-800">{user.username}</p>

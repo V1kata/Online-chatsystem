@@ -1,3 +1,5 @@
+"use client";
+
 import { toTitleCase } from "@/utils/helper";
 import { usePathname } from "next/navigation"
 

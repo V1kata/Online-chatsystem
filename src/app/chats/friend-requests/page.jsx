@@ -32,6 +32,7 @@ export default function Page() {
                                 alt="User Avatar"
                                 width={100}
                                 height={100}
+                                priority
                                 className="profile-pic rounded-full w-30 h-30 p-2"
                             />
                             <div className="flex flex-col gap-2">
