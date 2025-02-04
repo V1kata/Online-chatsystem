@@ -7,12 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 const links = [
-    { title: "All chats", path: "/chats/allchats" },
+    { title: "All chats", path: "/chats" },
     { title: "Friend Requests", path: "/chats/friend-requests" },
     { title: "Add a friend", path: "/chats/add-a-friend" },
     { title: "Profile", path: "/profile" },
     { title: "Logout", path: "/logout" },
-    { title: "Login", path: "/login" },
 ]
 export function DropdownMenu() {
     const pathname = usePathname();
