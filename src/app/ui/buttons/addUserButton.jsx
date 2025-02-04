@@ -1,19 +1,22 @@
 "use client";
 import { useTransition } from "react";
+import { useUser } from "@/app/context/UserContext";
 import { acceptFriendRequest } from "@/lib/dataHandlers";
 import { refreshFriendRequestsAction } from "@/utils/refreshPageAction";
 
-export function AddUserButton({ sender_id, userData, setUserData, setPeople }) {
+export function AddUserButton({ sender_id, setUserData, setPeople }) {
     const [isPending, startTransition] = useTransition();
+    const { userData } = useUser();
 
     const acceptFriendRequestHandler = async (e) => {
         e.stopPropagation();
 
-        userData.acceptedFriends.push(sender_id);
-
         try {
-            const data = await acceptFriendRequest(userData.acceptedFriends, sender_id, userData.id);
-            setUserData(data);
+            const data = await acceptFriendRequest(sender_id, userData.id);
+
+            if (data.error) {            
+                throw new Error(data.error);
+            }
 
             setPeople((prev) => prev.filter(person => person.sender_id.id !== sender_id));
 

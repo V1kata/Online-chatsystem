@@ -1,39 +1,52 @@
 "use client";
+import { useState, useEffect } from "react";
+import { useUser } from "@/app/context/UserContext";
+import { getFriends } from "@/lib/dataHandlers";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Page() {
+    const { userData } = useUser();
+    const [friends, setFriends] = useState([]);
+
+    useEffect(() => {
+        async function fetchUsers() {
+            const data = await getFriends(userData.id);
+            debugger
+            setFriends(data);
+        }
+        fetchUsers();
+    }, [])
     return (
         <>
             <article className="flex flex-col gap-12">
-                <div
-                    className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
-                    <div className="flex items-center gap-4">
-                        <img src="/user-svgrepo-com.svg" alt="User Avatar"
-                            className="profile-pic rounded-full w-15 h-15 bg-white p-2" />
-                        <div className="flex flex-col gap-2">
-                            <p className="text-xl font-medium text-gray-800">John Doe</p>
-                            <p className="text-sm text-gray-600">Sent you a friend request</p>
-                            <p className="text-xs text-gray-500 italic">Sent 2 hours ago</p>
+                {friends.length > 0 ? friends.map((friend) => (
+                    <div key={friend.id}
+                        className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
+                        <div className="flex items-center gap-4">
+                            <img src="/user-svgrepo-com.svg" alt="User Avatar"
+                                className="profile-pic rounded-full w-15 h-15 bg-white p-2" />
+                            <div className="flex flex-col gap-1 text-xl">
+                                <div className="flex flex-row gap-2">
+                                    <p className="name font-bold text-gray-800">{friend.user1.username}</p>
+                                    <p>-</p>
+                                    <p className="name font-bold text-gray-800">{friend.user1.email}</p>
+                                </div>
+                                <p className="last-text text-gray-600">Last chat...</p>
+                            </div>
                         </div>
+                        <div className="flex flex-col items-center gap-2">
+                            <p className="text-white text-xl">12:50</p>
+                            <div
+                                className="bg-[#e58b8f] text-white rounded-full w-6 h-6 flex items-center justify-center border-2 border-purple-700 shadow-md">
+                                <p className="text-sm">2</p>
+                            </div>
+                        </div>
+                    </div>)) : (
+                    <div className="flex justify-center items-center h-screen">
+                        <p className="text-xl font-semibold">You still have no friends, why not add one? - <Link href="/chats/add-a-friend">Add a friend</Link></p>
                     </div>
-                    <div className="flex gap-4">
-                        <button
-                            className="w-16 h-16 bg-green-500 hover:bg-green-600 hover:shadow-2xl rounded-full flex items-center justify-center shadow-md">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5 13L9 17L19 7" stroke="white" strokeWidth="2" strokeLinecap="round"
-                                    strokeLinejoin="round" />
-                            </svg>
-                        </button>
-                        <button
-                            className="w-16 h-16 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center shadow-md">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 6L18 18M6 18L18 6" stroke="white" strokeWidth="2" strokeLinecap="round"
-                                    strokeLinejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                )}
             </article>
         </>
     )

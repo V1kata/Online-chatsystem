@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/setUp";
+import { User2 } from "lucide-react";
 
 export async function getAllUsers(email = 'banana@gmail.com') {
     try {
@@ -89,12 +90,16 @@ export async function viewFriendRequest(senderId) {
     }
 }
 
-export async function acceptFriendRequest(updatedFriendsArray, sender_id, receiver_id) {
+export async function acceptFriendRequest(sender_id, receiver_id) {
     try {
         const { data, error } = await supabase
-            .from("user_profiles")
-            .update({ acceptedFriends: updatedFriendsArray })
-            .eq("id", receiver_id)
+            .from("chat_room")
+            .insert([
+                {
+                    user1: sender_id,
+                    user2: receiver_id
+                }
+            ])
             .select();
 
         const res = await supabase
@@ -103,16 +108,34 @@ export async function acceptFriendRequest(updatedFriendsArray, sender_id, receiv
             .eq("sender_id", sender_id)
             .eq("receiver_id", receiver_id);
 
-        const res2 = await supabase
-            .from("user_profiles")
-            .update({ acceptedFriends: updatedFriendsArray })
-            .eq("id", sender_id);
-
-        if (error || res.error || res2.error) {
+        if (error || res.error) {
             throw Error(error.message);
         }
 
         return data[0];
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export async function getFriends(userId) {
+    try {
+        const { data, error } = await supabase
+            .from("chat_room")
+            .select(`id,
+                user1(
+                    id,
+                    email,
+                    username,
+                    profileImageUrl
+                )`)
+            .eq("user2", userId)
+
+        if (error) {
+            throw Error(error.message);
+        }
+
+        return data;
     } catch (err) {
         console.error(err);
     }

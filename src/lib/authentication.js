@@ -49,20 +49,14 @@ export async function loginUser({ email, password }) {
         }
 
         let userId = data.user.id;
-        const res = await supabase.from('user_profiles').select('*').eq('user_id', userId);
+        const res = await supabase.from('user_profiles').update({ isOnline: true }).eq('user_id', userId).select();
 
-        let returnData = {
-            id: res.data[0].id,
-            accessToken: data.session.access_token,
-            email: data.user.email,
-            username: res.data[0].username,
-            profileImageUrl: res.data[0].profileImageUrl,
-            acceptedFriends: res.data[0].acceptedFriends,
-            blockedFriends: res.data[0].blockedFriends
+        if (res.error) {
+            throw res.error;
         }
 
         await setSession(data.session.access_token, data.session.refresh_token);
-        return returnData;
+        return { ...res, accessToken: data.session.access_token };
     } catch (err) {
         console.error('Unexpected error:', err);
         return { error: err };
@@ -81,7 +75,7 @@ async function setSession(access_token, refresh_token) {
     }
 }
 
-export async function getSession(params) {
+export async function getSession() {
     try {
         const { data, error } = await supabase.auth.getSession();
 
@@ -108,16 +102,27 @@ async function getCurrentUser(user_id) {
     }
 }
 
-export async function logoutUser() {
+export async function logoutUser(userId) {
     try {
+        await makeUserOffline(userId);
+
         const { error } = await supabase.auth.signOut();
 
-        if (error) {
+        if (error || res.error) {
             throw error;
         }
 
         localStorage.removeItem('sb-mbzfehmethzunbrrpxls-auth-token');
         sessionStorage.removeItem('sb-mbzfehmethzunbrrpxls-auth-token');
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        return { error: err };
+    }
+}
+
+export async function makeUserOffline(userId) {
+    try {
+        const res = await supabase.from('user_profiles').update({ isOnline: false, lastOnline: new Date().toISOString() }).eq('user_id', userId);
     } catch (err) {
         console.error('Unexpected error:', err);
         return { error: err };

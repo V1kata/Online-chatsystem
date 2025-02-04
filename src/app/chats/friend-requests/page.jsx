@@ -44,8 +44,6 @@ export default function Page() {
                         <div className="flex gap-4">
                             <AddUserButton
                                 sender_id={person['sender_id'].id}
-                                userData={userData}
-                                setUserData={setUserData}
                                 setPeople={setPeople}
                             />
                             <RejectUserButton />
