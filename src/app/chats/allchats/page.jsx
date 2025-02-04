@@ -12,7 +12,6 @@ export default function Page() {
     useEffect(() => {
         async function fetchUsers() {
             const data = await getFriends(userData.id);
-            debugger
             setFriends(data);
         }
         fetchUsers();
@@ -24,15 +23,21 @@ export default function Page() {
                     <div key={friend.id}
                         className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
                         <div className="flex items-center gap-4">
-                            <img src="/user-svgrepo-com.svg" alt="User Avatar"
-                                className="profile-pic rounded-full w-15 h-15 bg-white p-2" />
+                            <Image
+                                src={friend.user1.profileImageUrl}
+                                alt="User Avatar"
+                                width={100}
+                                height={100}
+                                priority
+                                className="profile-pic rounded-full w-30 h-30 p-2"
+                            />
                             <div className="flex flex-col gap-1 text-xl">
                                 <div className="flex flex-row gap-2">
                                     <p className="name font-bold text-gray-800">{friend.user1.username}</p>
                                     <p>-</p>
                                     <p className="name font-bold text-gray-800">{friend.user1.email}</p>
                                 </div>
-                                <p className="last-text text-gray-600">Last chat...</p>
+                                <p className="last-text text-gray-600">{"No messages yet"}</p>
                             </div>
                         </div>
                         <div className="flex flex-col items-center gap-2">

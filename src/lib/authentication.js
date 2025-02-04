@@ -49,14 +49,14 @@ export async function loginUser({ email, password }) {
         }
 
         let userId = data.user.id;
-        const res = await supabase.from('user_profiles').update({ isOnline: true }).eq('user_id', userId).select();
+        const res = await supabase.from('user_profiles').update({ isOnline: true, lastOnline: null }).eq('user_id', userId).select();
 
         if (res.error) {
             throw res.error;
         }
 
         await setSession(data.session.access_token, data.session.refresh_token);
-        return { ...res, accessToken: data.session.access_token };
+        return { ...res.data[0], accessToken: data.session.access_token };
     } catch (err) {
         console.error('Unexpected error:', err);
         return { error: err };
@@ -108,7 +108,7 @@ export async function logoutUser(userId) {
 
         const { error } = await supabase.auth.signOut();
 
-        if (error || res.error) {
+        if (error) {
             throw error;
         }
 
@@ -122,7 +122,8 @@ export async function logoutUser(userId) {
 
 export async function makeUserOffline(userId) {
     try {
-        const res = await supabase.from('user_profiles').update({ isOnline: false, lastOnline: new Date().toISOString() }).eq('user_id', userId);
+        await supabase.from('user_profiles').update({ isOnline: false, lastOnline: new Date().toISOString() }).eq('id', userId);
+        return;
     } catch (err) {
         console.error('Unexpected error:', err);
         return { error: err };
