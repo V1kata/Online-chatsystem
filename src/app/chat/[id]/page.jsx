@@ -1,28 +1,28 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 import Link from "next/link";
 import Image from "next/image";
 import { InputField } from '@/app/ui/chat/inputField';
+import { getMessages } from '@/lib/dataHandlers'
+import { FriendChat } from '@/app/ui/chat/friendChat';
+import { UserChat } from '@/app/ui/chat/userChat';
 
 export default function Page({ params }) {
     const [chat, setChat] = useState([]);
-    let chatId = '';
+    const pathname = usePathname();
+    let chatId = pathname.split('/')[2];
     const { userData, setUserData } = useUser();
     
     useEffect(() => {
-        async function getId() {
-            const { id } = await params
-            chatId = id;
+        async function getFirstMessages() {
+            const data = await getMessages(chatId);
+            setChat(data)
         }
 
-        getId();
-        async function getFirstMessages() {
-            const data = await getFirstMessages(chatId);
-            setChat(data)
-        }   
+        getFirstMessages()
     })
 
     return (
@@ -40,7 +40,9 @@ export default function Page({ params }) {
             </div>
 
             <div className="flex flex-col gap-2 flex-grow overflow-y-auto pb-20">
-
+                {chat && chat.map((message) => (
+                    message.sender.id === userData.id ? <UserChat key={message.id} message={message.message} /> : <FriendChat key={message.id} message={message.message} />
+                ))}
             </div>
 
             <InputField />

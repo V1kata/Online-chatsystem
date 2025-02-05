@@ -12,9 +12,12 @@ export default function Page() {
     useEffect(() => {
         async function fetchUsers() {
             const data = await getFriends(userData.id);
-            setFriends(data.map(({ user1, user2 }) =>
-                user1.id === userData.id ? user2 : user1
-            ));
+            let arr = [];
+            data.map(({ id, user1, user2 }) => {
+                let savedUser = user1.id === userData.id ? user2 : user1;
+                arr.push({ id, user: savedUser });
+            });
+            setFriends(arr);
         }
         fetchUsers();
     }, [])
@@ -27,7 +30,7 @@ export default function Page() {
                             className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
                             <div className="flex items-center gap-4">
                                 <Image
-                                    src={friend.profileImageUrl}
+                                    src={friend.user.profileImageUrl}
                                     alt="User Avatar"
                                     width={100}
                                     height={100}
@@ -36,9 +39,9 @@ export default function Page() {
                                 />
                                 <div className="flex flex-col gap-1 text-xl">
                                     <div className="flex flex-row gap-2">
-                                        <p className="name font-bold text-gray-800">{friend.username}</p>
+                                        <p className="name font-bold text-gray-800">{friend.user.username}</p>
                                         <p>-</p>
-                                        <p className="name font-bold text-gray-800">{friend.email}</p>
+                                        <p className="name font-bold text-gray-800">{friend.user.email}</p>
                                     </div>
                                     <p className="last-text text-gray-600">{"No messages yet"}</p>
                                 </div>

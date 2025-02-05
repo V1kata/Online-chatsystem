@@ -1,5 +1,4 @@
 import { supabase } from "@/lib/setUp";
-import { User2 } from "lucide-react";
 
 export async function getAllUsers(email = 'banana@gmail.com') {
     try {
@@ -136,6 +135,23 @@ export async function getFriends(userId) {
                     profileImageUrl
                 )`)
             .or(`user1.eq.${userId},user2.eq.${userId}`);
+
+        if (error) {
+            throw Error(error.message);
+        }
+
+        return data;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export async function getMessages(chatId) {
+    try {
+        const { data, error } = await supabase
+            .from('messages')
+            .select("*, sender(id, email, username, profileImageUrl, lastOnline, isOnline)")
+            .eq("chat", chatId);
 
         if (error) {
             throw Error(error.message);
