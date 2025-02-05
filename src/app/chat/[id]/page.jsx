@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
+import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import Image from "next/image";
 import { InputField } from '@/app/ui/chat/inputField';
@@ -11,6 +12,7 @@ import { FriendChat } from '@/app/ui/chat/friendChat';
 import { UserChat } from '@/app/ui/chat/userChat';
 
 export default function Page({ params }) {
+    useAuth();
     const [chat, setChat] = useState([]);
     const pathname = usePathname();
     let chatId = pathname.split('/')[2];
