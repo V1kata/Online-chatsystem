@@ -13,7 +13,9 @@ export default function RootLayout({ children }) {
                         className="absolute top-40 right-32 w-24 h-24 bg-green-400 opacity-40 rounded-lg animate-float animation-delay-200 z-[-1]">
                     </div>
                     <div className="absolute bottom-32 left-48 w-16 h-16 bg-yellow-300 opacity-20 rounded-full animate-float z-[-1]"></div>
-                    {children}
+                    <main className='relative z-10 flex justify-center items-center flex-col'>
+                        {children}
+                    </main>
                 </body>
             </UserProvider>
         </html >

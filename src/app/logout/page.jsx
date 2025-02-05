@@ -12,14 +12,10 @@ export default function Page() {
     useEffect(() => {
         async function logout() {
             try {
-                const res = await logoutUser(userData.id);
-
-                if (res.error) {
-                    throw res.error;
-                }
+                await logoutUser(userData.id);
                 
-                setUserData(null);
                 router.push('/login');
+                setUserData(null);
             } catch(err) {
                 return;
             }

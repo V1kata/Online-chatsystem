@@ -128,8 +128,14 @@ export async function getFriends(userId) {
                     email,
                     username,
                     profileImageUrl
+                ),
+                user2(
+                    id,
+                    email,
+                    username,
+                    profileImageUrl
                 )`)
-            .eq("user2", userId)
+            .or(`user1.eq.${userId},user2.eq.${userId}`);
 
         if (error) {
             throw Error(error.message);

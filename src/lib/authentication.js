@@ -114,6 +114,7 @@ export async function logoutUser(userId) {
 
         localStorage.removeItem('sb-mbzfehmethzunbrrpxls-auth-token');
         sessionStorage.removeItem('sb-mbzfehmethzunbrrpxls-auth-token');
+        return;
     } catch (err) {
         console.error('Unexpected error:', err);
         return { error: err };
