@@ -11,7 +11,7 @@ export function UserChat({ message }) {
                 <p className="bg-white p-2 px-4 text-lg rounded-3xl rounded-br-[0px] shadow-md max-w-[45%] break-words">
                     {message}
                 </p>
-                <Image src={userData?.profileImageUrl} alt="" className="rounded-full w-16 h-16 p-2 ml-2" width={36} height={36} />
+                <Image src={userData?.profileImageUrl} alt="" className="rounded-full w-16 h-16 p-2 ml-2" width={48} height={48} />
             </div>
         </div>
     )

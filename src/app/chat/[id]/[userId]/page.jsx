@@ -26,6 +26,7 @@ export default function Page() {
         async function getFirstMessages() {
             const data = await getMessages(chatId);
             const res = await getCurrentUser(pathname.split('/')[3]);
+            debugger
             setFriend(res[0]);
             setChat(data);
         }
@@ -73,7 +74,7 @@ export default function Page() {
 
             <div className="flex flex-col gap-2 flex-grow overflow-y-auto pb-20 mt-5">
                 {chat.length > 0 && chat.map((message) => (
-                    message.sender === userData?.id ? 
+                    message.sender.id === userData?.id ? 
                         <UserChat key={message.id} message={message.message} /> : 
                         <FriendChat key={message.id} message={message.message} user={friend} />
                 ))}
