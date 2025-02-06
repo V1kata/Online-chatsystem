@@ -150,7 +150,7 @@ export async function getMessages(chatId) {
     try {
         const { data, error } = await supabase
             .from('messages')
-            .select(`*, sender(id, email, username, profileImageUrl, lastOnline, isOnline)`)
+            .select(`*`)
             .eq("chat", chatId);
 
         if (error) {
