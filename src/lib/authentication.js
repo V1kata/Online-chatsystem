@@ -88,12 +88,12 @@ export async function getSession() {
     }
 }
 
-async function getCurrentUser(user_id) {
+export async function getCurrentUser(user_id) {
     try {
         const { data, error } = await supabase
             .from('user_profiles')
             .select('*')
-            .eq('user_id', user_id);
+            .eq(`${isNaN(user_id) ? 'user_id' : 'id'}`, user_id);
 
         return data
     } catch (err) {

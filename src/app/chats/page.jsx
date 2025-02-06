@@ -25,7 +25,7 @@ export default function Page() {
         <>
             <article className="flex flex-col gap-12">
                 {friends.length > 0 ? friends.map((friend) => (
-                    <Link key={friend.id} href={`/chat/${friend.id}`}>
+                    <Link key={friend.id} href={`/chat/${friend.id}/${friend.user.id}`}>
                         <div
                             className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
                             <div className="flex items-center gap-4">
