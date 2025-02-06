@@ -6,7 +6,7 @@ import LoadingWrapper from "@/app/chats/loading";
 export default function Layout({ children }) {
     return (
         <LoadingWrapper>
-            <div className="flex flex-col w-[55vw] overflow-y-auto h-screen bg-gray-200 bg-opacity-60 rounded-lg p-4 space-y-4">
+            <div className="flex flex-col w-full md:w-[55vw] overflow-y-auto h-screen bg-gray-200 bg-opacity-60 rounded-lg p-4 space-y-4">
                 <div className="flex items-center justify-between mb-4 relative">
                     <DropdownMenu />
 

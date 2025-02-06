@@ -64,11 +64,11 @@ export default function Page() {
     };
 
     return (
-        <div className="flex flex-col w-[55vw] overflow-hidden h-screen bg-gray-200 bg-opacity-60 rounded-lg p-4">
+        <div className="flex flex-col w-full md:w-[55vw] overflow-y-auto h-screen bg-gray-200 bg-opacity-60 rounded-lg md:p-4 pt-3 space-y-4">
             <div className="border-b border-white">
-                <ul className="flex flex-row items-center justify-between gap-12 ml-7 p-3">
+                <ul className="flex flex-row items-center md:justify-between justify-center gap-12 md:ml-7 md:p-3 ml-1 p-1">
                     <div className="flex flex-row items-center gap-10">
-                        <li>
+                        <li className="w-12 h-12">
                             <Link href="/chats">
                                 <Image src="/arrow-back-svgrepo-com.svg" priority alt="Arrow back" width={50} height={50} />
                             </Link>

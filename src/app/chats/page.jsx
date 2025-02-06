@@ -23,34 +23,37 @@ export default function Page() {
     }, [])
     return (
         <>
-            <article className="flex flex-col gap-12">
+            <article className="flex flex-col gap-6 md:gap-12">
                 {friends.length > 0 ? friends.map((friend) => (
                     <Link key={friend.id} href={`/chat/${friend.id}/${friend.user.id}`}>
                         <div
-                            className="flex items-center justify-between gap-5 mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
-                            <div className="flex items-center gap-4">
+                            className="flex items-center justify-between gap-5 mx-0 md:mx-5 bg-[rgba(199,195,195,0.641)] p-4 rounded-lg border border-white">
+                            <div className="flex flex-row items-center gap-4 w-full">
                                 <Image
                                     src={friend.user.profileImageUrl}
                                     alt="User Avatar"
                                     width={100}
                                     height={100}
                                     priority
-                                    className="profile-pic rounded-full w-30 h-30 p-2"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    className="profile-pic rounded-full p-2"
                                 />
-                                <div className="flex flex-col gap-1 text-xl">
-                                    <div className="flex flex-row gap-2">
-                                        <p className="name font-bold text-gray-800">{friend.user.username}</p>
-                                        <p>-</p>
-                                        <p className="name font-bold text-gray-800">{friend.user.email}</p>
+                                <div className="flex flex-col md:flex-row w-full md:justify-between">
+                                    <div className="flex flex-col gap-1 text-md md:text-xl">
+                                        <div className="flex flex-col md:flex-row gap-2">
+                                            <p className="name font-bold text-gray-800">{friend.user.username}</p>
+                                            <p className="hidden md:block">-</p>
+                                            <p className="font-bold text-gray-800 truncate w-32 md:w-auto">{friend.user.email}</p>
+                                        </div>
+                                        <p className="last-text text-gray-600">{"No messages yet"}</p> {/* TODO: Add last message */}
                                     </div>
-                                    <p className="last-text text-gray-600">{"No messages yet"}</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-center gap-2">
-                                <p className="text-white text-xl">12:50</p>
-                                <div
-                                    className="bg-[#e58b8f] text-white rounded-full w-6 h-6 flex items-center justify-center border-2 border-purple-700 shadow-md">
-                                    <p className="text-sm">2</p>
+                                    <div className="flex flex-row md:flex-col items-center gap-2">
+                                        <p className="text-white text-xl">12:50</p>
+                                        <div
+                                            className="bg-[#e58b8f] text-white rounded-full w-6 h-6 flex items-center justify-center border-2 border-purple-700 shadow-md">
+                                            <p className="text-sm">2</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
