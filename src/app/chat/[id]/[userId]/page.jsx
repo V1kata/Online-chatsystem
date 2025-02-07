@@ -86,7 +86,7 @@ export default function Page() {
                 </ul>
             </div>
 
-            <div ref={chatContainerRef} onScroll={handleScroll} className="flex flex-col gap-2 flex-grow overflow-y-auto pb-20 mt-5">
+            <div ref={chatContainerRef} onScroll={handleScroll} className="flex flex-col gap-2 flex-grow overflow-y-auto mt-5">
                 {chat.length > 0 &&
                     chat.map((message) =>
                         message.sender === userData?.id ? (
@@ -97,8 +97,8 @@ export default function Page() {
                     )}
                 <div ref={messagesEndRef} />
             </div>
-
             <InputField chatId={chatId} />
+
         </div>
     );
 }

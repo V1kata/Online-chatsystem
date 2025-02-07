@@ -42,7 +42,7 @@ export function InputField({ chatId }) {
     };
 
     return (
-        <div className="absolute bottom-0 left-0 w-full p-3 bg-gray-300 rounded-b-lg flex items-center">
+        <div className="bottom-0 left-0 w-full p-3 bg-gray-300 rounded-b-lg flex items-center">
             <textarea
                 id="message-input"
                 className="w-full p-2 border rounded-md text-lg focus:outline-none resize-none overflow-y-auto max-h-[150px]"
