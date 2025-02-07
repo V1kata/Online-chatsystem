@@ -13,7 +13,7 @@ export default function Page() {
 
     useEffect(() => {
         async function fetchUsers() {
-            const data = await getAllUsers(userData?.email);
+            const data = await getAllUsers(userData?.id);
             setUsers(data);
         }
         fetchUsers();
@@ -36,7 +36,7 @@ export default function Page() {
                                         <p className="name font-bold text-gray-800">{user.username}</p>
                                         <p className="font-bold text-gray-800 truncate w-32 md:w-auto">{user.email}</p>
                                     </div>
-                                    <AddAFriendButton receiverId={user.id} />
+                                    <AddAFriendButton receiverId={user.id} setUsers={setUsers} />
                                 </div>
                             </div>
 

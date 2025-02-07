@@ -10,7 +10,7 @@ export function Search({ setUsers }) {
     const [inputData, setInputData] = useState(undefined);
     const handleSearch = async () => {
         if (!inputData) {
-            let data = await getAllUsers(userData?.email);
+            let data = await getAllUsers(userData?.id);
             setUsers(data);
             return;
         };

@@ -1,46 +1,85 @@
 import { supabase } from "@/lib/setUp";
 
-export async function getAllUsers(email = 'banana@gmail.com') {
+export async function getAllUsers(userId) {
     try {
-        const { data, error } = await supabase
-            .from('user_profiles')
-            .select(`
-                id,
-                username,
-                profileImageUrl,
-                email
-            `)
-            .neq('email', email)
-            .limit(10);
+        const excludedIds = await getExcludedUserIds(userId);
+        let query = supabase
+            .from("user_profiles")
+            .select("id, username, profileImageUrl, email")
+            .neq("id", userId);
 
-        if (error) {
-            throw new Error(error.message);
+        if (excludedIds.length > 0) {
+            query = query.not("id", "in", `(${excludedIds.join(",")})`);
         }
+
+        const { data, error } = await query;
+
+        if (error) throw new Error(error.message);
 
         return data;
     } catch (err) {
         console.error(err);
+        return [];
     }
 }
 
-export async function searchForUser(input, id) {
+export async function searchForUser(input, userId) {
     try {
-        const { data, error } = await supabase
+        const excludedIds = await getExcludedUserIds(userId);
+        let query = supabase
             .from("user_profiles")
-            .select("*")
+            .select("id, username, profileImageUrl, email")
             .or(`email.ilike.%${input}%,username.ilike.%${input}%`)
-            .neq("id", id);
+            .neq("id", userId);
 
-        if (error) {
-            console.error("Error searching for user:", error);
-            return null;
+        if (excludedIds.length > 0) {
+            query = query.not("id", "in", `(${excludedIds.join(",")})`);
         }
 
-        return data
+        const { data, error } = await query;
+
+        if (error) throw new Error(error.message);
+
+        return data;
     } catch (err) {
         console.error(err);
+        return [];
     }
 }
+
+async function getExcludedUserIds(userId) {
+    try {
+        const { data: friendRequests, error: friendsError } = await supabase
+            .from("friend_requests")
+            .select("sender_id, receiver_id")
+            .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`);
+
+        if (friendsError) throw new Error(friendsError.message);
+
+        const friendIds = friendRequests
+            ? friendRequests.flatMap(req => [req.sender_id, req.receiver_id]).filter(id => id !== userId)
+            : [];
+
+        const { data: chatRooms, error: chatRoomError } = await supabase
+            .from("chat_room")
+            .select("user1, user2")
+            .or(`user1.eq.${userId},user2.eq.${userId}`);
+
+        if (chatRoomError) throw new Error(chatRoomError.message);
+
+        const chatUserIds = chatRooms
+            ? chatRooms.flatMap(chat => [chat.user1, chat.user2]).filter(id => id !== userId)
+            : [];
+
+        const excludedIds = [...new Set([...friendIds, ...chatUserIds])];
+
+        return excludedIds;
+    } catch (err) {
+        console.error("Error fetching excluded user IDs:", err);
+        return [];
+    }
+}
+
 
 export async function sendFriendRequest(senderId, receiverId) {
     try {
