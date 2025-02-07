@@ -173,13 +173,49 @@ export async function getFriends(userId) {
                     username,
                     profileImageUrl
                 )`)
-            .or(`user1.eq.${userId},user2.eq.${userId}`);
+            .or(`user1.eq.${userId},user2.eq.${userId}`)
+
+        if (error) throw new Error(error.message);
+        if (!data.length) return [];
+
+        const chatIds = data.map(chat => chat.id);
+
+        const { data: lastMessages, error: messagesError } = await supabase
+            .from("messages")
+            .select("chat, message, sender")
+            .in("chat", chatIds)
+            .order("created_at", { ascending: false });
+
+        if (messagesError) throw new Error(messagesError.message);
+
+        const chatWithLastMessage = data.map(chat => {
+            const lastMessage = lastMessages.find(msg => msg.chat === chat.id);
+            return {
+                ...chat,
+                lastMessage: lastMessage?.message ? `${lastMessage?.sender == userId ? "Me: " : ""}${lastMessage?.message}` || "No messages yet" : "No messages yet",
+            };
+        });
+
+        return chatWithLastMessage;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+async function getLastMessage(id) {
+    try {
+        const { data, error } = await supabase
+            .from("messages")
+            .select(`message`)
+            .eq("chat", id)
+            .order("created_at", { ascending: false })
+            .limit(1);
 
         if (error) {
             throw Error(error.message);
         }
 
-        return data;
+        return data[0];
     } catch (err) {
         console.error(err);
     }

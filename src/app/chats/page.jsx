@@ -13,9 +13,10 @@ export default function Page() {
         async function fetchUsers() {
             const data = await getFriends(userData.id);
             let arr = [];
-            data.map(({ id, user1, user2 }) => {
+            
+            data.map(({ id, user1, user2, lastMessage }) => {
                 let savedUser = user1.id === userData.id ? user2 : user1;
-                arr.push({ id, user: savedUser });
+                arr.push({ id, user: savedUser, lastMessage: lastMessage || "No messages yet" });
             });
             setFriends(arr);
         }
@@ -45,7 +46,7 @@ export default function Page() {
                                             <p className="hidden md:block">-</p>
                                             <p className="font-bold text-gray-800 truncate w-32 md:w-auto">{friend.user.email}</p>
                                         </div>
-                                        <p className="last-text text-gray-600">{"No messages yet"}</p> {/* TODO: Add last message */}
+                                        <p className="last-text text-gray-600">Last message - {friend.lastMessage}</p> {/* TODO: Add last message */}
                                     </div>
                                     <div className="flex flex-row md:flex-col items-center gap-2">
                                         <p className="text-white text-xl">12:50</p>
