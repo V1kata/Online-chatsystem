@@ -59,7 +59,7 @@ export default function Page() {
     const handleScroll = () => {
         if (chatContainerRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
-            setIsUserScrolledUp(scrollHeight - scrollTop > clientHeight + 50); // 50px threshold
+            setIsUserScrolledUp(scrollHeight - scrollTop > clientHeight + 50);
         }
     };
 
