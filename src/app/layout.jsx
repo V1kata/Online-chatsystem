@@ -1,10 +1,12 @@
 import '@/app/global.css';
 import { UserProvider } from '@/app/context/UserContext';
+import OnlineStatusUpdater from '@/app/ui/onlineStatusUpdate';
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <UserProvider>
                 <body className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-800 to-purple-900">
+                    <OnlineStatusUpdater />
                     <div className="absolute inset-0 bg-opacity-50 backdrop-blur-lg z-[-1]"></div>
 
                     <div className="absolute top-10 left-5 sm:left-20 w-16 sm:w-20 h-16 sm:h-20 bg-pink-500 z-[-1] opacity-30 rounded-full animate-float"></div>
