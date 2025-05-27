@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
@@ -16,6 +16,7 @@ import { supabase } from "@/lib/setUp";
 
 export default function Page() {
     const loading = useAuth();
+    const router = useRouter();
     const [chat, setChat] = useState([]);
     const [friend, setFriend] = useState({});
     const pathname = usePathname();
@@ -28,10 +29,17 @@ export default function Page() {
 
     useEffect(() => {
         async function getFirstMessages() {
-            const data = await getMessages(chatId);
-            const res = await getCurrentUser(pathname.split("/")[3]);
-            setFriend(res[0]);
-            setChat(data);
+            try {
+                const data = await getMessages(chatId, userData?.id);
+                const res = await getCurrentUser(pathname.split("/")[3]);
+                setFriend(res[0]);
+                setChat(data);
+            } catch (error) {
+                if (error.message === "unauthorized") {
+                router.push("/unauthorized"); 
+            }
+                console.error("Error fetching messages:", error);
+            }
         }
 
         getFirstMessages();
@@ -44,6 +52,15 @@ export default function Page() {
                 setChat((prev) => [...prev, payload.new]);
             }
         ).subscribe();
+
+        setInterval(() => {
+            async function getStatus() {
+                const res = await getCurrentUser(pathname.split("/")[3]);
+                setFriend(res[0]);
+            }
+
+            getStatus();
+        }, 5000);
 
         return () => {
             channel.unsubscribe();
@@ -80,7 +97,7 @@ export default function Page() {
                     </div>
                     <li className="ml-auto">
                         <button id="profile-button" className="w-12 h-12 rounded-full bg-white-200 flex items-center justify-center hover:bg-gray-300 shadow-md transition-transform transform hover:scale-105">
-                            <Image src={friend.profileImageUrl || "/user-svgrepo-com.svg"} alt="Profile" className="w-12 h-12 rounded-full" width={36} height={36} />
+                            <Image src={friend?.profileImageUrl || "/user-svgrepo-com.svg"} alt="Profile" className="w-12 h-12 rounded-full" width={36} height={36} />
                         </button>
                     </li>
                 </ul>

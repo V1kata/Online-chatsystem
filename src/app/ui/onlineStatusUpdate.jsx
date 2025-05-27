@@ -10,7 +10,6 @@ export default function OnlineStatusUpdater() {
         if (!userData) return;
 
         const updateOnlineStatus = async (isOnline) => {
-            console.log(isOnline)
             await supabase
                 .from('user_profiles')
                 .update({

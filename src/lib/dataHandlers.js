@@ -221,8 +221,23 @@ async function getLastMessage(id) {
     }
 }
 
-export async function getMessages(chatId) {
-    try {
+export async function getMessages(chatId, userId) {
+        const { data: chatInfo, error: chatError } = await supabase
+            .from("chat_room")
+            .select("*")
+            .eq("id", chatId)
+            .single();
+
+        if (chatError || !chatInfo) {
+            throw Error('unauthorized');
+        }
+
+        const isParticipant = [chatInfo.user1, chatInfo.user2].includes(userId);
+        if (!isParticipant) {
+            throw new Error("unauthorized");
+        }
+
+
         const { data, error } = await supabase
             .from('messages')
             .select(`*`)
@@ -232,12 +247,5 @@ export async function getMessages(chatId) {
             throw Error(error.message);
         }
 
-        if (data.length === 0) {
-            return [];
-        }
-
-        return data;
-    } catch (err) {
-        console.error(err);
-    }
+        return data || [];
 }
